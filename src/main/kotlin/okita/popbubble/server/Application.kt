@@ -2,6 +2,7 @@ package okita.popbubble.server
 
 import io.ktor.application.*
 import io.ktor.http.cio.websocket.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.websocket.*
 import java.lang.Exception
@@ -37,6 +38,11 @@ fun Application.module() {
             } finally {
                 println("Removing $thisConnection!")
                 connections -= thisConnection
+            }
+        }
+        route("/") {
+            get {
+                call.respondText("Working")
             }
         }
     }
