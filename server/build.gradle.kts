@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.5.20"
+    application
 }
 
 group = "com.jetbrains.handson"

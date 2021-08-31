@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="chat-app-websockets" target="15" />
+      <module name="chat-app-websockets.main" target="15" />
+      <module name="chat-app-websockets.test" target="15" />
+      <module name="popbubble-server" target="15" />
+      <module name="popbubble-server.main" target="15" />
+      <module name="popbubble-server.test" target="15" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
