@@ -3,7 +3,7 @@ plugins {
     application
 }
 
-group = "com.jetbrains.handson"
+group = "okita.popbubble.server"
 version = "1.0-SNAPSHOT"
 
 repositories {
