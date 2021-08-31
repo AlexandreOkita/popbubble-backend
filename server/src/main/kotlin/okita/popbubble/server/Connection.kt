@@ -1,4 +1,4 @@
-package com.jetbrains.handson.chat.server
+package okita.popbubble.server
 
 import io.ktor.http.cio.websocket.*
 import java.util.concurrent.atomic.*
@@ -7,5 +7,5 @@ class Connection(val session: DefaultWebSocketSession) {
     companion object {
         var lastId = AtomicInteger(0)
     }
-    val name = "user${lastId.getAndIncrement()}"
+    val name = "user${okita.popbubble.server.Connection.Companion.lastId.getAndIncrement()}"
 }

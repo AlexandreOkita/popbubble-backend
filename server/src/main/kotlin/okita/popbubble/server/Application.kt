@@ -1,4 +1,4 @@
-package com.jetbrains.handson.chat.server
+package okita.popbubble.server
 
 import io.ktor.application.*
 import io.ktor.http.cio.websocket.*
