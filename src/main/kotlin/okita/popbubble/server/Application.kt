@@ -40,10 +40,8 @@ fun Application.module() {
                 connections -= thisConnection
             }
         }
-        route("/") {
-            get {
-                call.respondText("Working")
-            }
+        get("/") {
+            call.respondText("Working")
         }
     }
 }
