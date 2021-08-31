@@ -10,6 +10,10 @@ repositories {
     mavenCentral()
 }
 
+application {
+    mainClass.set("io.ktor.server.netty.EngineMain")
+}
+
 val ktor_version: String by project
 val logback_version: String by project
 
