@@ -29,7 +29,7 @@ fun Application.module() {
                 roomsConnections[roomId] = connections
             }
 
-            val roomConnection = roomsConnections["roomId"]!!
+            val roomConnection = roomsConnections[roomId]!!
 
             try {
                 send("You are connected! There are ${roomConnection.count()} users here.")
