@@ -15,21 +15,32 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module() {
     install(WebSockets)
     routing {
-        val connections = Collections.synchronizedSet<Connection?>(LinkedHashSet())
-        webSocket("/chat") {
-            println("Adding User!")
+        val roomsConnections = mutableMapOf<String, MutableSet<Connection>>()
+
+        webSocket("/chat/{roomId}") {
+            val roomId = call.parameters["roomId"]!!
             val thisConnection = Connection(this)
-            connections += thisConnection
+
+            if (roomsConnections.containsKey(roomId)) {
+                roomsConnections[roomId]!! += thisConnection
+            } else {
+                val connections = Collections.synchronizedSet<Connection?>(LinkedHashSet())
+                connections += thisConnection
+                roomsConnections[roomId] = connections
+            }
+
+            val roomConnection = roomsConnections["roomId"]!!
+
             try {
-                send("You are connected! There are ${connections.count()} users here.")
-                connections.forEach {
+                send("You are connected! There are ${roomConnection.count()} users here.")
+                roomConnection.forEach {
                     it.session.send("${thisConnection.name} acabou de entrar na sala!")
                 }
                 for (frame in incoming) {
                     frame as? Frame.Text ?: continue
                     val receivedText = frame.readText()
                     val textWithUsername = "[${thisConnection.name}]: $receivedText"
-                    connections.filter { it != thisConnection } .forEach {
+                    roomConnection.filter { it != thisConnection } .forEach {
                         it.session.send(textWithUsername)
                     }
                 }
@@ -37,7 +48,7 @@ fun Application.module() {
                 println(e.localizedMessage)
             } finally {
                 println("Removing $thisConnection!")
-                connections -= thisConnection
+                roomConnection -= thisConnection
             }
         }
         get("/") {
