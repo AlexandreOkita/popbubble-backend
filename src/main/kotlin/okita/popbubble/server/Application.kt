@@ -33,6 +33,8 @@ fun Application.module() {
 
             try {
                 send(Message("You are connected!", Event.CONNECTED, Author.SYSTEM).buildMessage())
+                if(roomConnection.count() > 1)
+                    send(Message("Há mais uma pessoa além de você nessa sala", Event.CONNECTED, Author.SYSTEM).buildMessage())
                 roomConnection.filter { it != thisConnection } .forEach {
                     it.session.send(Message("Um desconhecido acabou de entrar na sala", Event.CONNECTED, Author.SYSTEM).buildMessage())
                 }
@@ -46,7 +48,6 @@ fun Application.module() {
             } catch (e: Exception) {
                 println(e.localizedMessage)
             } finally {
-                send(Message("O desconhecido saiu da sala", Event.DISCONNECTED, Author.SYSTEM).buildMessage())
                 println("Removing $thisConnection!")
                 roomConnection -= thisConnection
             }
