@@ -33,7 +33,7 @@ fun Application.module() {
 
             try {
                 send("You are connected!")
-                roomConnection.forEach {
+                roomConnection.filter { it != thisConnection } .forEach {
                     it.session.send("Um desconhecido acabou de entrar na sala!")
                 }
                 for (frame in incoming) {
