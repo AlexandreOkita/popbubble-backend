@@ -32,14 +32,14 @@ fun Application.module() {
             val roomConnection = roomsConnections[roomId]!!
 
             try {
-                send("You are connected! There are ${roomConnection.count()} users here.")
+                send("You are connected!")
                 roomConnection.forEach {
-                    it.session.send("${thisConnection.name} acabou de entrar na sala!")
+                    it.session.send("Um desconhecido acabou de entrar na sala!")
                 }
                 for (frame in incoming) {
                     frame as? Frame.Text ?: continue
                     val receivedText = frame.readText()
-                    val textWithUsername = "[${thisConnection.name}]: $receivedText"
+                    val textWithUsername = "[Desconhecido]: $receivedText"
                     roomConnection.filter { it != thisConnection } .forEach {
                         it.session.send(textWithUsername)
                     }
