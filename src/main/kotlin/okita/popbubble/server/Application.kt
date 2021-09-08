@@ -32,21 +32,21 @@ fun Application.module() {
             val roomConnection = roomsConnections[roomId]!!
 
             try {
-                send("You are connected!")
+                send(Message("You are connected!", Event.CONNECTED, Author.SYSTEM).buildMessage())
                 roomConnection.filter { it != thisConnection } .forEach {
-                    it.session.send("Um desconhecido acabou de entrar na sala!")
+                    it.session.send(Message("Um desconhecido acabou de entrar na sala", Event.CONNECTED, Author.SYSTEM).buildMessage())
                 }
                 for (frame in incoming) {
                     frame as? Frame.Text ?: continue
                     val receivedText = frame.readText()
-                    val textWithUsername = "[Desconhecido]: $receivedText"
                     roomConnection.filter { it != thisConnection } .forEach {
-                        it.session.send(textWithUsername)
+                        it.session.send(Message(receivedText, Event.MESSAGE, Author.PERSON).buildMessage())
                     }
                 }
             } catch (e: Exception) {
                 println(e.localizedMessage)
             } finally {
+                send(Message("O desconhecido saiu da sala", Event.DISCONNECTED, Author.SYSTEM).buildMessage())
                 println("Removing $thisConnection!")
                 roomConnection -= thisConnection
             }
