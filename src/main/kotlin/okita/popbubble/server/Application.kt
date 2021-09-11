@@ -49,6 +49,7 @@ fun Application.module() {
                 println(e.localizedMessage)
             } finally {
                 println("Removing $thisConnection!")
+                thisConnection.session.send(Message("O desconhecido saiu da sala", Event.DISCONNECTED, Author.SYSTEM).buildMessage())
                 roomConnection -= thisConnection
             }
         }
